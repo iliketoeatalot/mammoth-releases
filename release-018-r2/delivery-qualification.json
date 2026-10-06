@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "version": "0.1.18",
+  "candidate_sha256": "ca0586f3e8d41ceb1f6fbedd41a5aa88068ce6d6673f7d87e18d4bee13b09edd",
+  "installer_sha256": "e1308e5b8cda97383b75f6bb9ef1001e9f6de3179e373a45197b2114983e4219",
+  "executable_sha256": "826e256eaadae9fd8b5619b968622b1e17a6e4b52f24fff48d09497c60387817",
+  "updater_dll_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
+  "qualification_report_sha256": "20639f0945ccb680455cfb38bebd08557811db8f7509e63fa0fc39e5edf32d89",
+  "build": {
+    "run_id": 37520801517,
+    "source_commit": "7cd0a256bd95ab6202a03f6fec86c122548f4977",
+    "ctest_passed": 13,
+    "native_checks_passed": 692
+  },
+  "native": {
+    "run_id": 37522643029,
+    "source_commit": "d044767dc348a7248368542244a58192f763483a",
+    "installer_safety": "PASS",
+    "unchanged_017_migration": "PASS",
+    "candidate_cancel_immediate_retry_cycles": 3,
+    "candidate_cancel_immediate_retry": "PASS"
+  },
+  "collection": {
+    "run_id": 37523332868,
+    "source_commit": "7a2ca127dadb804c6fed57796c58656c7ea7d311",
+    "outcome": "PASS"
+  },
+  "known_legacy_cancel_retry_bug": "Fix applies after 0.1.18 installation; original 0.1.17 cancellation crashes remain recorded.",
+  "normal_feed_confirmation": "Pending separate post-publication native run"
+}
