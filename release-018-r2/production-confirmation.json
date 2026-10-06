@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "version": "0.1.18",
+  "outcome": "PASS",
+  "normal_feed_confirmed": true,
+  "installed_channel_writes": 0,
+  "unchanged_017_upgraded_via_visible_updater": true,
+  "current_installer_sha256": "e1308e5b8cda97383b75f6bb9ef1001e9f6de3179e373a45197b2114983e4219",
+  "current_executable_sha256": "826e256eaadae9fd8b5619b968622b1e17a6e4b52f24fff48d09497c60387817",
+  "candidate_dll_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
+  "qualification_report_sha256": "20639f0945ccb680455cfb38bebd08557811db8f7509e63fa0fc39e5edf32d89",
+  "production_report_sha256": "c3662535d2bd5c9822ae82eab34855caed928cf994925581d68104e3cdfcdd05",
+  "production_evidence_sha256": "0c673712ff9957b32a670eaffccb759849b419ad2b6a804205aebc8ff6d4cf6e",
+  "run_id": "37523701650",
+  "source_commit": "96f42146ba4a911814158599784f87e9cfd7ac1b",
+  "checked_out_fixture_commit": "d044767dc348a7248368542244a58192f763483a",
+  "build_checks": 692,
+  "candidate_cancel_immediate_retry_cycles": 3,
+  "known_legacy_cancel_retry_bug": {
+    "state": "RECORDED_NOT_RETROACTIVELY_FIXED",
+    "failed_runs": [
+      37513872473,
+      37514500481
+    ]
+  }
+}
