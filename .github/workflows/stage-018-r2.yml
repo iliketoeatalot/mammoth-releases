@@ -1,0 +1,52 @@
+name: Stage repaired signed Mammoth 0.1.18
+on:
+  push:
+    branches: [release/staging-0.1.18-r2]
+    paths: [.github/workflows/stage-018-r2.yml]
+permissions:
+  contents: write
+jobs:
+  stage:
+    runs-on: windows-2022
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Verify the exact clean repaired build and signing identity
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          Invoke-WebRequest -Uri 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-b5f0-81f5-bb0a-36e2e9d61549/raw?se=2026-10-06T19%3A56%3A32Z&sp=r&sv=2026-02-06&sr=b&scid=bdee8260-810e-4210-81e2-9bcfa69b56e3&skoid=80e81ea6-3c08-46f9-bd84-b87176742bcd&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T01%3A44%3A44Z&ske=2026-10-07T01%3A44%3A44Z&sks=b&skv=2026-02-06&sig=%2BehRR7vfiuX3Aphx6PCqj09YbAJaGCkwr2MubDprPoU%3D' -OutFile delivery.zip -TimeoutSec 120
+          if ((Get-FileHash delivery.zip).Hash.ToLowerInvariant() -cne 'e3298fb35850aaaa1fbede1ddf62b0f59e0b46ce4666bbc5f25e3d4898fa37aa') {throw 'Binary-only transfer archive differs.'}
+          Expand-Archive delivery.zip delivery
+          $installer='delivery/Mammoth-Setup-0.1.18.exe'
+          $portable='delivery/Mammoth-Windows.zip'
+          if ((Get-FileHash $installer).Hash.ToLowerInvariant() -cne 'e1308e5b8cda97383b75f6bb9ef1001e9f6de3179e373a45197b2114983e4219') {throw 'Installer differs.'}
+          if ((Get-FileHash $portable).Hash.ToLowerInvariant() -cne '6b63a3122f7ee333011ee5d9c3b6b1c3a037c3e46937b44995f469d29c9f6a68') {throw 'Portable differs.'}
+          Expand-Archive $portable payload
+          if ((Get-FileHash payload/Mammoth.exe).Hash.ToLowerInvariant() -cne '826e256eaadae9fd8b5619b968622b1e17a6e4b52f24fff48d09497c60387817') {throw 'Executable differs.'}
+          if ((Get-FileHash payload/WinSparkle.dll).Hash.ToLowerInvariant() -cne '3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21') {throw 'Repaired dependency differs.'}
+          [IO.File]::WriteAllBytes('signature.txt',[Convert]::FromBase64String('UXBtS0IybktJYXFIdzQxbElzZXB2b3Z2UklEa1VQWlY4a24xWlUxU0FJazNhQ3oyNEtCeU9HcUsvNUhrUHpOZmRiL042bkpLOTZmWm8wdlg0UUNlQ2c9PQo='))
+          [IO.File]::WriteAllBytes('appcast.xml',[Convert]::FromBase64String('PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0ndXRmLTgnPz4KPHJzcyB4bWxuczpuczA9Imh0dHA6Ly93d3cuYW5keW1hdHVzY2hhay5vcmcveG1sLW5hbWVzcGFjZXMvc3BhcmtsZSIgdmVyc2lvbj0iMi4wIj4KICA8Y2hhbm5lbD4KICAgIDx0aXRsZT5NYW1tb3RoIHVwZGF0ZXM8L3RpdGxlPgogICAgPGl0ZW0+CiAgICAgIDx0aXRsZT5NYW1tb3RoIDAuMS4xODwvdGl0bGU+CiAgICAgIDxkZXNjcmlwdGlvbiAvPgogICAgICA8bnMwOm1pbmltdW1TeXN0ZW1WZXJzaW9uPjEwLjA8L25zMDptaW5pbXVtU3lzdGVtVmVyc2lvbj4KICAgICAgPGVuY2xvc3VyZSB1cmw9Imh0dHBzOi8vZ2l0aHViLmNvbS9pbGlrZXRvZWF0YWxvdC9tYW1tb3RoLXJlbGVhc2VzL3JlbGVhc2VzL2Rvd25sb2FkL3YwLjEuMTgvTWFtbW90aC1TZXR1cC0wLjEuMTguZXhlIiBsZW5ndGg9IjY5NzkyMjEiIHR5cGU9ImFwcGxpY2F0aW9uL29jdGV0LXN0cmVhbSIgbnMwOnZlcnNpb249IjAuMS4xOCIgbnMwOm9zPSJ3aW5kb3dzLXg2NCIgbnMwOmVkU2lnbmF0dXJlPSJRcG1LQjJuS0lhcUh3NDFsSXNlcHZvdnZSSURrVVBaVjhrbjFaVTFTQUlrM2FDejI0S0J5T0dxSy81SGtQek5mZGIvTjZuSks5NmZabzB2WDRRQ2VDZz09IiBuczA6aW5zdGFsbGVyQXJndW1lbnRzPSIvUyIgLz4KICAgIDwvaXRlbT4KICA8L2NoYW5uZWw+CjwvcnNzPg=='))
+          [IO.File]::WriteAllBytes('appcast-staging.xml',[Convert]::FromBase64String('PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0ndXRmLTgnPz4KPHJzcyB4bWxuczpuczA9Imh0dHA6Ly93d3cuYW5keW1hdHVzY2hhay5vcmcveG1sLW5hbWVzcGFjZXMvc3BhcmtsZSIgdmVyc2lvbj0iMi4wIj4KICA8Y2hhbm5lbD4KICAgIDx0aXRsZT5NYW1tb3RoIHVwZGF0ZXM8L3RpdGxlPgogICAgPGl0ZW0+CiAgICAgIDx0aXRsZT5NYW1tb3RoIDAuMS4xODwvdGl0bGU+CiAgICAgIDxkZXNjcmlwdGlvbiAvPgogICAgICA8bnMwOm1pbmltdW1TeXN0ZW1WZXJzaW9uPjEwLjA8L25zMDptaW5pbXVtU3lzdGVtVmVyc2lvbj4KICAgICAgPGVuY2xvc3VyZSB1cmw9Imh0dHBzOi8vZ2l0aHViLmNvbS9pbGlrZXRvZWF0YWxvdC9tYW1tb3RoLXJlbGVhc2VzL3JlbGVhc2VzL2Rvd25sb2FkL3YwLjEuMTgtc3RhZ2luZy1yMi9NYW1tb3RoLVNldHVwLTAuMS4xOC5leGUiIGxlbmd0aD0iNjk3OTIyMSIgdHlwZT0iYXBwbGljYXRpb24vb2N0ZXQtc3RyZWFtIiBuczA6dmVyc2lvbj0iMC4xLjE4IiBuczA6b3M9IndpbmRvd3MteDY0IiBuczA6ZWRTaWduYXR1cmU9IlFwbUtCMm5LSWFxSHc0MWxJc2Vwdm92dlJJRGtVUFpWOGtuMVpVMVNBSWszYUN6MjRLQnlPR3FLLzVIa1B6TmZkYi9ONm5KSzk2ZlpvMHZYNFFDZUNnPT0iIG5zMDppbnN0YWxsZXJBcmd1bWVudHM9Ii9TIiAvPgogICAgPC9pdGVtPgogIDwvY2hhbm5lbD4KPC9yc3M+'))
+          [IO.File]::WriteAllBytes('appcast-cancellation-test.xml',[Convert]::FromBase64String('PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0ndXRmLTgnPz4KPHJzcyB4bWxuczpuczA9Imh0dHA6Ly93d3cuYW5keW1hdHVzY2hhay5vcmcveG1sLW5hbWVzcGFjZXMvc3BhcmtsZSIgdmVyc2lvbj0iMi4wIj4KICA8Y2hhbm5lbD4KICAgIDx0aXRsZT5NYW1tb3RoIHVwZGF0ZXM8L3RpdGxlPgogICAgPGl0ZW0+CiAgICAgIDx0aXRsZT5NYW1tb3RoIGNhbmNlbGxhdGlvbiB0ZXN0IGZpeHR1cmUgKG5vdCBhIGZ1dHVyZSByZWxlYXNlKTwvdGl0bGU+CiAgICAgIDxkZXNjcmlwdGlvbiAvPgogICAgICA8bnMwOm1pbmltdW1TeXN0ZW1WZXJzaW9uPjEwLjA8L25zMDptaW5pbXVtU3lzdGVtVmVyc2lvbj4KICAgICAgPGVuY2xvc3VyZSB1cmw9Imh0dHBzOi8vZ2l0aHViLmNvbS9pbGlrZXRvZWF0YWxvdC9tYW1tb3RoLXJlbGVhc2VzL3JlbGVhc2VzL2Rvd25sb2FkL3YwLjEuMTgtc3RhZ2luZy1yMi9NYW1tb3RoLVNldHVwLTAuMS4xOC5leGUiIGxlbmd0aD0iNjk3OTIyMSIgdHlwZT0iYXBwbGljYXRpb24vb2N0ZXQtc3RyZWFtIiBuczA6dmVyc2lvbj0iMC4xLjE5IiBuczA6b3M9IndpbmRvd3MteDY0IiBuczA6ZWRTaWduYXR1cmU9IlFwbUtCMm5LSWFxSHc0MWxJc2Vwdm92dlJJRGtVUFpWOGtuMVpVMVNBSWszYUN6MjRLQnlPR3FLLzVIa1B6TmZkYi9ONm5KSzk2ZlpvMHZYNFFDZUNnPT0iIG5zMDppbnN0YWxsZXJBcmd1bWVudHM9Ii9TIiAvPgogICAgPC9pdGVtPgogIDwvY2hhbm5lbD4KPC9yc3M+'))
+          [IO.File]::WriteAllBytes('release-candidate.json',[Convert]::FromBase64String('ewogICJzY2hlbWEiOiAxLAogICJyZXBvc2l0b3J5IjogImlsaWtldG9lYXRhbG90L21hbW1vdGgtcmVsZWFzZXMiLAogICJ2ZXJzaW9uIjogIjAuMS4xOCIsCiAgImNoYW5uZWwiOiB7CiAgICAic2NoZW1hIjogMSwKICAgICJmZWVkIjogImh0dHBzOi8vZ2l0aHViLmNvbS9pbGlrZXRvZWF0YWxvdC9tYW1tb3RoLXJlbGVhc2VzL3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9hcHBjYXN0LnhtbCIsCiAgICAicHVibGljS2V5IjogIjlaVmRHZ1VRRnlIUWR1WHVCT2Z6Q3hWLzJ1aUlNSXUrWFlaT2pXZG1aT2s9IgogIH0sCiAgInBvcnRhYmxlX2V4ZV9zaGEyNTYiOiAiODI2ZTI1NmVhYWRhZTlmZDhiNTYxOWI5Njg2MjJiMWUxN2E2ZTRiNTJmMjRmZmY0OGQwOTQ5N2M2MDM4NzgxNyIsCiAgImFydGlmYWN0cyI6IHsKICAgICJNYW1tb3RoLVNldHVwLTAuMS4xOC5leGUiOiB7CiAgICAgICJzaGEyNTYiOiAiZTEzMDhlNWI4Y2RhOTczODNiNzVmNmJiOWVmMTAwMWU5ZjZkZTMxNzllMzczYTQ1MTk3YjIxMTQ5ODNlNDIxOSIsCiAgICAgICJieXRlcyI6IDY5NzkyMjEKICAgIH0sCiAgICAiTWFtbW90aC1XaW5kb3dzLnppcCI6IHsKICAgICAgInNoYTI1NiI6ICI2YjYzYTMxMjJmN2VlMzMzMDExZWU1ZDljM2I2YjFjM2EwMzdjM2U0NjkzN2I0NDk5NWY0NjlkMjljOWY2YTY4IiwKICAgICAgImJ5dGVzIjogOTY4OTkyNwogICAgfSwKICAgICJhcHBjYXN0LnhtbCI6IHsKICAgICAgInNoYTI1NiI6ICIxYzAwYTVmMmFmOGIyY2U2NWM3ZDVkMWJlMDBmYTljNmE4MTk0NTU5MjBiZGNhZDFmNmMzNGU0MmEyM2JiYTgzIiwKICAgICAgImJ5dGVzIjogNjg4CiAgICB9LAogICAgInNpZ25hdHVyZS50eHQiOiB7CiAgICAgICJzaGEyNTYiOiAiNzFmNWViZTMwODZkODUyNjI0NTI3ODVkOWJjNmEwMTQ0MWE5OGM0ZDEzODk4YjZlYzMwMTg5MDBhMGQ2YWM3NSIsCiAgICAgICJieXRlcyI6IDg5CiAgICB9CiAgfQp9Cg=='))
+          Invoke-WebRequest 'https://github.com/vslavik/winsparkle/releases/download/v0.9.4/WinSparkle-0.9.4.zip' -OutFile verifier.zip -TimeoutSec 90
+          if ((Get-FileHash verifier.zip).Hash.ToLowerInvariant() -cne '6037df37fc263bd1650a1c4949681a9d40ffe991d01f35892a406cb5d103c976') {throw 'Official verifier differs.'}
+          Expand-Archive verifier.zip verifier
+          $tool=@(Get-ChildItem verifier -Filter winsparkle-tool.exe -Recurse)
+          if ($tool.Count -ne 1) {throw 'Official verifier is not unique.'}
+          & $tool[0].FullName verify --public-key '9ZVdGgUQFyHQduXuBOfzCxV/2uiIMIu+XYZOjWdmZOk=' --signature 'QpmKB2nKIaqHw41lIsepvovvRIDkUPZV8kn1ZU1SAIk3aCz24KByOGqK/5HkPzNfdb/N6nJK96fZo0vX4QCeCg==' $installer
+          if ($LASTEXITCODE -ne 0) {throw 'Official signature verification failed.'}
+      - name: Publish immutable prerelease and preserve the normal updater
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $stable=gh release view --repo iliketoeatalot/mammoth-releases --json tagName --jq .tagName
+          if ($LASTEXITCODE -ne 0 -or $stable -cne 'v0.1.17') {throw 'Unexpected current stable release.'}
+          gh release view v0.1.18-staging-r2 --repo iliketoeatalot/mammoth-releases 2>$null
+          if ($LASTEXITCODE -eq 0) {throw 'Immutable repaired staging already exists.'}
+          gh release create v0.1.18-staging-r2 delivery/Mammoth-Setup-0.1.18.exe delivery/Mammoth-Windows.zip signature.txt appcast.xml appcast-staging.xml appcast-cancellation-test.xml release-candidate.json --repo iliketoeatalot/mammoth-releases --prerelease --latest=false --title 'Mammoth 0.1.18 repaired update qualification' --notes 'Signed clean rebuild with the repaired updater. Native delivery qualification pending. The separately named cancellation appcast is a future-version test fixture pointing at this same signed installer; no future release is shipped. Normal updater remains 0.1.17.'
+          if ($LASTEXITCODE -ne 0) {throw 'Repaired staging publication failed.'}
+          $stable=gh release view --repo iliketoeatalot/mammoth-releases --json tagName --jq .tagName
+          if ($LASTEXITCODE -ne 0 -or $stable -cne 'v0.1.17') {throw 'Staging changed normal updater.'}
