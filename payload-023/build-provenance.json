@@ -1,0 +1,21 @@
+{
+  "version": "0.1.23",
+  "release_ready": false,
+  "run_id": "37703375223",
+  "source_commit": "8b07c130248b53a412e5d0a07afd23c0c9dce9e2",
+  "updater_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
+  "native_checks": 832,
+  "schema": 1,
+  "artifacts": [
+    {
+      "sha256": "ca8122f31d5e748002de9e48678aa4db06ac5363be627182f1df342c4d1c9c42",
+      "name": "Mammoth-Setup-0.1.23.exe",
+      "bytes": 7194798
+    },
+    {
+      "sha256": "462e72a0b60491ebddf1aca153b52b0ea0696b556d342bbd77d730e207119567",
+      "name": "Mammoth-Windows.zip",
+      "bytes": 9998378
+    }
+  ]
+}

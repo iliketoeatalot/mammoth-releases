@@ -1,0 +1,35 @@
+name: Stage exact signed Mammoth 0.1.23 binaries
+on:
+  push:
+    branches: [delivery/0.1.23]
+    paths: [.github/workflows/stage-023.yml, payload-023/**]
+permissions:
+  contents: write
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify exact tested bytes and unchanged stable release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = iliketoeatalot/mammoth-releases
+          test "$GITHUB_REF" = refs/heads/delivery/0.1.23
+          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.22
+          cd payload-023
+          sha256sum -c SHA256SUMS
+          test "$(sha256sum Mammoth-Setup-0.1.23.exe | cut -d' ' -f1)" = ca8122f31d5e748002de9e48678aa4db06ac5363be627182f1df342c4d1c9c42
+          test "$(sha256sum Mammoth-Windows.zip | cut -d' ' -f1)" = 462e72a0b60491ebddf1aca153b52b0ea0696b556d342bbd77d730e207119567
+      - name: Publish isolated prerelease for native delivery tests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view v0.1.23-staging --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then gh release delete v0.1.23-staging --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag; fi
+          gh release create v0.1.23-staging payload-023/Mammoth-Setup-0.1.23.exe payload-023/Mammoth-Windows.zip payload-023/appcast.xml payload-023/appcast-staging.xml payload-023/appcast-cancellation-test.xml payload-023/release-candidate.json payload-023/signature.txt payload-023/SHA256SUMS payload-023/release-notes.md payload-023/build-provenance.json --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Mammoth 0.1.23 delivery-test staging" --notes "Isolated signed delivery candidate. The normal updater remains on 0.1.22." --prerelease --latest=false
+          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.22
