@@ -1,0 +1,69 @@
+name: Publish qualified signed Mammoth 0.1.20 update
+on:
+  push:
+    branches: [delivery/0.1.20]
+    paths: [.github/workflows/promote-020.yml]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Require exact successful native qualification and unchanged signing identity
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = iliketoeatalot/mammoth-releases
+          test "$GITHUB_REF" = refs/heads/delivery/0.1.20
+          test "$(sha256sum payload-020/delivery-qualification.json | cut -d' ' -f1)" = ea2266f4a7ebd1771ba2edeec662bd8ff446ef999bda5a28d7bb63290046d06b
+          cd payload-020
+          sha256sum -c SHA256SUMS
+          node <<'JS'
+          const fs=require('fs'),crypto=require('crypto');
+          const q=JSON.parse(fs.readFileSync('delivery-qualification.json'));
+          const c=JSON.parse(fs.readFileSync('release-candidate.json'));
+          const hash=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+          const requireValue=(actual,expected)=>{if(actual!==expected)throw Error('Qualification identity mismatch');};
+          for(const [key,value] of Object.entries({kind:'native-delivery-qualification',version:'0.1.20',platform:'Windows',synthetic:false,outcome:'PASS',staging_qualified:true,run_id:'37583548695',source_commit:'fad6a2cc6d52080b9e793545516483b8ce5154c8',candidate_sha256:'fbfb7ddafc4574336591136da1cba37f5f8b57667066a10790d1f3c2c6d3f353',installer_sha256:'41d1fba81578d2a7d319115bc130d57ada6fdd5bc1442f8ac234ee672da0b7cb',executable_sha256:'d3449256e385fcdd9954b8ccdca6e87cb091a8c4cbcd1eade180026cb2c06dd4'}))requireValue(q[key],value);
+          requireValue(c.version,'0.1.20');requireValue(c.repository,'iliketoeatalot/mammoth-releases');
+          requireValue(c.channel.publicKey,'9ZVdGgUQFyHQduXuBOfzCxV/2uiIMIu+XYZOjWdmZOk=');
+          requireValue(c.channel.feed,'https://github.com/iliketoeatalot/mammoth-releases/releases/latest/download/appcast.xml');
+          requireValue(hash('release-candidate.json'),q.candidate_sha256);
+          requireValue(hash('Mammoth-Setup-0.1.20.exe'),q.installer_sha256);
+          const key=crypto.createPublicKey({key:Buffer.concat([Buffer.from('302a300506032b6570032100','hex'),Buffer.from(c.channel.publicKey,'base64')]),format:'der',type:'spki'});
+          if(!crypto.verify(null,fs.readFileSync('Mammoth-Setup-0.1.20.exe'),key,Buffer.from(fs.readFileSync('signature.txt','utf8').trim(),'base64')))throw Error('Invalid shipping signature');
+          console.log('PASS exact qualified signed shipping bytes');
+          JS
+      - name: Read back staging and preserve prior normal feed until promotion
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.19
+          gh release download v0.1.19 --repo "$GITHUB_REPOSITORY" --pattern appcast.xml --dir previous-feed
+          test "$(sha256sum previous-feed/appcast.xml | cut -d' ' -f1)" = 0f79168518ff9b9e6877e7b287ace78d5e769170b0c1060d89da17058e2f5c6c
+          gh release download v0.1.20-staging --repo "$GITHUB_REPOSITORY" --dir staging-readback
+          (cd staging-readback && sha256sum -c SHA256SUMS)
+      - name: Upload draft and verify exact uploaded bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release create v0.1.20 payload-020/Mammoth-Setup-0.1.20.exe payload-020/Mammoth-Windows.zip payload-020/appcast.xml payload-020/release-candidate.json payload-020/signature.txt payload-020/SHA256SUMS payload-020/release-notes.md payload-020/delivery-qualification.json --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Mammoth 0.1.20" --notes-file payload-020/release-notes.md --draft --latest=false
+          gh release download v0.1.20 --repo "$GITHUB_REPOSITORY" --dir draft-readback
+          (cd draft-readback && sha256sum -c SHA256SUMS)
+          cmp payload-020/delivery-qualification.json draft-readback/delivery-qualification.json
+          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.19
+      - name: Promote and verify live updater feed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release edit v0.1.20 --repo "$GITHUB_REPOSITORY" --draft=false --latest=true
+          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.20
+          curl --fail --location --retry 6 --retry-all-errors --retry-delay 3 https://github.com/iliketoeatalot/mammoth-releases/releases/latest/download/appcast.xml --output live-appcast.xml
+          cmp payload-020/appcast.xml live-appcast.xml
+          echo 'PASS signed qualified 0.1.20 published and normal feed read back'

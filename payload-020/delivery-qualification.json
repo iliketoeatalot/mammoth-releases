@@ -1,0 +1,36 @@
+{
+  "schema": 2,
+  "kind": "native-delivery-qualification",
+  "platform": "Windows",
+  "synthetic": false,
+  "version": "0.1.20",
+  "outcome": "PASS",
+  "staging_qualified": true,
+  "normal_feed_confirmed": false,
+  "run_id": "37583548695",
+  "source_commit": "fad6a2cc6d52080b9e793545516483b8ce5154c8",
+  "candidate_sha256": "fbfb7ddafc4574336591136da1cba37f5f8b57667066a10790d1f3c2c6d3f353",
+  "installer_sha256": "41d1fba81578d2a7d319115bc130d57ada6fdd5bc1442f8ac234ee672da0b7cb",
+  "executable_sha256": "d3449256e385fcdd9954b8ccdca6e87cb091a8c4cbcd1eade180026cb2c06dd4",
+  "candidate_dll_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
+  "legacy_migration": "PASS_UNCHANGED_0.1.19_VIA_VISIBLE_UPDATER",
+  "candidate_cancellation": "PASS_THREE_SAME_PROCESS_CYCLES",
+  "evidence_sha256": {
+    "installer_report": "3796443d70146cc7d2638504cca9d722c9c836532011e0f4af80a5d85399ddb9",
+    "installer_logs": {
+      "signature_valid": "25271b32dd5c7e73db423b4b61809ee7e67ae1d9da99d7844a83ea0090b545dc",
+      "tamper_rejected": "25271b32dd5c7e73db423b4b61809ee7e67ae1d9da99d7844a83ea0090b545dc",
+      "installer_upgrade": "25271b32dd5c7e73db423b4b61809ee7e67ae1d9da99d7844a83ea0090b545dc",
+      "updated_app_relaunch": "25271b32dd5c7e73db423b4b61809ee7e67ae1d9da99d7844a83ea0090b545dc",
+      "history_preserved": "25271b32dd5c7e73db423b4b61809ee7e67ae1d9da99d7844a83ea0090b545dc",
+      "previous_version_retained": "25271b32dd5c7e73db423b4b61809ee7e67ae1d9da99d7844a83ea0090b545dc",
+      "automatic_preference_preserved": "25271b32dd5c7e73db423b4b61809ee7e67ae1d9da99d7844a83ea0090b545dc",
+      "full_disk_rollback": "25271b32dd5c7e73db423b4b61809ee7e67ae1d9da99d7844a83ea0090b545dc",
+      "downgrade_rejected": "25271b32dd5c7e73db423b4b61809ee7e67ae1d9da99d7844a83ea0090b545dc"
+    },
+    "legacy_migration": "d4e1352551b8e5b58ae95cd6ae16dc27b1291c160eca3dc700a61b8354e0a7ab",
+    "candidate_cancellation": "d07aa61e78e1544342bdd40fb3cb6e847a13edbd7274f74f5bf37542b681b333",
+    "candidate_cancellation_transcript": "b3d28b016296ffd5f5bb94b3c30bb2631b8b5ed1810c79de554041f3f0b48b4a"
+  },
+  "publication_performed": false
+}
