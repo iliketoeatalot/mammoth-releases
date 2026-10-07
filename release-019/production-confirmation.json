@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "version": "0.1.19",
+  "outcome": "PASS",
+  "normal_feed_confirmed": true,
+  "installed_channel_writes": 0,
+  "unchanged_018_upgraded_via_visible_updater": true,
+  "current_installer_sha256": "cb508033aebb2ddd9581fbfca21dfe0ca2173a1b7d9c8c715b763d9d640224f9",
+  "current_executable_sha256": "6bf9634a8577c7efb05d3e461b987a90162a9b80d8e00b0ec5717c48c41b07b4",
+  "candidate_dll_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
+  "qualification_report_sha256": "0f0ea7c44361e11c1f4bb3c49eb83d8e5b384f2a534bb427d57dc46c0c52a40b",
+  "production_report_sha256": "7759035b735426ae335133021729d71f54350d27be2803644bc08bed9588acea",
+  "production_evidence_sha256": "60ea1b2c4e3e3e0e8d66d7bc931498ab42e52bbd8762d79a7901aaf0a76898ec",
+  "run_id": "37552085376",
+  "source_commit": "f3332f3a3a3fbb00562490c3a6142ac744299dae",
+  "checked_out_fixture_commit": "f3332f3a3a3fbb00562490c3a6142ac744299dae",
+  "build_checks": 687,
+  "candidate_cancel_immediate_retry_cycles": 3
+}
