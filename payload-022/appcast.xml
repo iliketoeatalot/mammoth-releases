@@ -6,7 +6,7 @@
       <title>Mammoth 0.1.22</title>
       <description>Click-open popup controls, dedicated Practice, responsive key fit, bright particle effects, interactive Learn and expanded Career and Editor.</description>
       <sparkle:minimumSystemVersion>10.0</sparkle:minimumSystemVersion>
-      <enclosure url="https://github.com/iliketoeatalot/mammoth-releases/releases/download/v0.1.22/Mammoth-Setup-0.1.22.exe" length="7159075" type="application/octet-stream" sparkle:version="0.1.22" sparkle:os="windows-x64" sparkle:edSignature="KqiAbUePBwwrKI/lQZQYQbCNC28tCli6e5IhNuGXiRkHGSFnznUJOGrSlsxVMV+m9qX+VvwCYOchJWO1Ri/rCQ==" sparkle:installerArguments="/S" />
+      <enclosure url="https://github.com/iliketoeatalot/mammoth-releases/releases/download/v0.1.22/Mammoth-Setup-0.1.22.exe" length="7156907" type="application/octet-stream" sparkle:version="0.1.22" sparkle:os="windows-x64" sparkle:edSignature="CnP4HzfMZ9vNp7xMS/Tash+x4MabVvdtH29uEqGGUEFRy2qb+h3YPVgualskp3zSINQksTEANGTV2XE8yhjFDw==" sparkle:installerArguments="/S" />
     </item>
   </channel>
 </rss>

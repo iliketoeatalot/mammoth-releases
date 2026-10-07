@@ -23,12 +23,13 @@ jobs:
           test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.21
           cd payload-022
           sha256sum -c SHA256SUMS
-          test "$(sha256sum Mammoth-Setup-0.1.22.exe | cut -d' ' -f1)" = 6ef46d8617fcd41b7e0697553d201ce4e4ff39c6e48c84b7a22f3e5fa7fd0fc5
-          test "$(sha256sum Mammoth-Windows.zip | cut -d' ' -f1)" = 8a5d55968c0468fb7adc22cbac2ea19ddfec1924a7512700ce4725a4425ad62e
+          test "$(sha256sum Mammoth-Setup-0.1.22.exe | cut -d' ' -f1)" = 0a0ba641e41018753453660bb04f5d47235e53f22e461a3ea1a0ec47daad38f3
+          test "$(sha256sum Mammoth-Windows.zip | cut -d' ' -f1)" = 9bbfbc9faed30d94df5e83038a65f80c35e1e94b460da0f6ca2a2c086b35c28a
       - name: Publish isolated prerelease for native delivery tests
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          if gh release view v0.1.22-staging --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then gh release delete v0.1.22-staging --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag; fi
           gh release create v0.1.22-staging payload-022/Mammoth-Setup-0.1.22.exe payload-022/Mammoth-Windows.zip payload-022/appcast.xml payload-022/appcast-staging.xml payload-022/appcast-cancellation-test.xml payload-022/release-candidate.json payload-022/signature.txt payload-022/SHA256SUMS payload-022/release-notes.md payload-022/build-provenance.json --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Mammoth 0.1.22 delivery-test staging" --notes "Isolated signed delivery candidate. The normal updater remains on 0.1.21." --prerelease --latest=false
           test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.21

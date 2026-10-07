@@ -6,7 +6,7 @@
       <title>Mammoth 0.1.22</title>
       <description>Click-open popup controls, dedicated Practice, responsive key fit, bright particle effects, interactive Learn and expanded Career and Editor.</description>
       <ns0:minimumSystemVersion>10.0</ns0:minimumSystemVersion>
-      <enclosure url="https://github.com/iliketoeatalot/mammoth-releases/releases/download/v0.1.22-staging/Mammoth-Setup-0.1.22.exe" length="7159075" type="application/octet-stream" ns0:version="0.1.23" ns0:os="windows-x64" ns0:edSignature="KqiAbUePBwwrKI/lQZQYQbCNC28tCli6e5IhNuGXiRkHGSFnznUJOGrSlsxVMV+m9qX+VvwCYOchJWO1Ri/rCQ==" ns0:installerArguments="/S" />
+      <enclosure url="https://github.com/iliketoeatalot/mammoth-releases/releases/download/v0.1.22-staging/Mammoth-Setup-0.1.22.exe" length="7156907" type="application/octet-stream" ns0:version="0.1.23" ns0:os="windows-x64" ns0:edSignature="CnP4HzfMZ9vNp7xMS/Tash+x4MabVvdtH29uEqGGUEFRy2qb+h3YPVgualskp3zSINQksTEANGTV2XE8yhjFDw==" ns0:installerArguments="/S" />
     </item>
   </channel>
 </rss>

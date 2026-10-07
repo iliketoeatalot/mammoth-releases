@@ -1,20 +1,20 @@
 {
   "artifacts": {
     "Mammoth-Setup-0.1.22.exe": {
-      "bytes": 7159075,
-      "sha256": "6ef46d8617fcd41b7e0697553d201ce4e4ff39c6e48c84b7a22f3e5fa7fd0fc5"
+      "bytes": 7156907,
+      "sha256": "0a0ba641e41018753453660bb04f5d47235e53f22e461a3ea1a0ec47daad38f3"
     },
     "Mammoth-Windows.zip": {
-      "bytes": 9945327,
-      "sha256": "8a5d55968c0468fb7adc22cbac2ea19ddfec1924a7512700ce4725a4425ad62e"
+      "bytes": 9945698,
+      "sha256": "9bbfbc9faed30d94df5e83038a65f80c35e1e94b460da0f6ca2a2c086b35c28a"
     },
     "appcast.xml": {
       "bytes": 869,
-      "sha256": "f520251081921ed828982f13f8f0393dda631fefca3919b4247224ceb8f15e8e"
+      "sha256": "ac56894ada3540d1d342ad10435bfa25100b7e2887bca01f9197c6f772bd8ed5"
     },
     "signature.txt": {
       "bytes": 89,
-      "sha256": "8dcadddef30abae0bdc6934f364d2faa9c19084d2f9a695575a31bd254c14b99"
+      "sha256": "e430e66b5f4426bba781f4aa9ce26334ab1d66f4fed0a9a972b7dde9d22812be"
     }
   },
   "channel": {
@@ -22,7 +22,7 @@
     "publicKey": "9ZVdGgUQFyHQduXuBOfzCxV/2uiIMIu+XYZOjWdmZOk=",
     "schema": 1
   },
-  "portable_exe_sha256": "4b253d92178028ddd7982ecec29faa40e67f49393835f50a7ac6f1febdab9b6a",
+  "portable_exe_sha256": "5f6dc14a98474352c406a1d9e9154752733a54726cdc9edb99dc86b69d697189",
   "repository": "iliketoeatalot/mammoth-releases",
   "schema": 1,
   "version": "0.1.22"
