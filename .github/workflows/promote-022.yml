@@ -45,6 +45,7 @@ jobs:
           test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.21
           gh release download v0.1.21 --repo "$GITHUB_REPOSITORY" --pattern appcast.xml --dir previous-feed
           test "$(sha256sum previous-feed/appcast.xml | cut -d' ' -f1)" = 130be5ed94b5c1b6a3686fcec219c2efe28bc17c8c4daf3cab11463c7ba186ec
+          gh release upload v0.1.22-staging payload-022/delivery-qualification.json --repo "$GITHUB_REPOSITORY" --clobber
           gh release download v0.1.22-staging --repo "$GITHUB_REPOSITORY" --dir staging-readback
           (cd staging-readback && sha256sum -c SHA256SUMS)
       - name: Upload draft and verify exact uploaded bytes
