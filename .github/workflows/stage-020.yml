@@ -2,7 +2,7 @@ name: Stage exact signed Mammoth 0.1.20 binaries
 on:
   push:
     branches: [delivery/0.1.20]
-    paths: [.github/workflows/stage-020.yml, payload-020/**]
+    paths: [.github/workflows/stage-020.yml, payload-020/Mammoth-Setup-0.1.20.exe, payload-020/Mammoth-Windows.zip, payload-020/appcast*.xml]
 permissions:
   contents: write
 jobs:
@@ -20,7 +20,6 @@ jobs:
           set -euo pipefail
           test "$GITHUB_REPOSITORY" = iliketoeatalot/mammoth-releases
           test "$GITHUB_REF" = refs/heads/delivery/0.1.20
-          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.19
           cd payload-020
           sha256sum -c SHA256SUMS
           test "$(sha256sum Mammoth-Setup-0.1.20.exe | cut -d' ' -f1)" = 41d1fba81578d2a7d319115bc130d57ada6fdd5bc1442f8ac234ee672da0b7cb
@@ -30,5 +29,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          if gh release view v0.1.20-staging --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release download v0.1.20-staging --repo "$GITHUB_REPOSITORY" --dir existing-staging
+            (cd existing-staging && sha256sum -c SHA256SUMS)
+            cmp payload-020/release-candidate.json existing-staging/release-candidate.json
+            echo "PASS unchanged staging already exists; no release or feed mutation"
+            exit 0
+          fi
+          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.19
           gh release create v0.1.20-staging payload-020/Mammoth-Setup-0.1.20.exe payload-020/Mammoth-Windows.zip payload-020/appcast.xml payload-020/appcast-staging.xml payload-020/appcast-cancellation-test.xml payload-020/release-candidate.json payload-020/signature.txt payload-020/SHA256SUMS payload-020/release-notes.md --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Mammoth 0.1.20 delivery-test staging" --notes "Isolated signed delivery candidate. The normal updater remains on 0.1.19." --prerelease --latest=false
           test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.19
