@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:ns0="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+  <channel>
+    <title>Mammoth updates</title>
+    <item>
+      <title>Disposable cancellation fixture</title>
+      <description>Vector badges, scoring and personal best details, MIDI calibration, Forge analysis, new compositions and a separate advanced Create Editor.</description>
+      <ns0:minimumSystemVersion>10.0</ns0:minimumSystemVersion>
+      <enclosure url="https://github.com/iliketoeatalot/mammoth-releases/releases/download/v0.1.20-staging/Mammoth-Setup-0.1.20.exe" length="7004056" type="application/octet-stream" ns0:version="0.1.21" ns0:os="windows-x64" ns0:edSignature="JzMadAjlqQs98eKZXy9j+JWxfWd9bO5JCrN8SU5cQ0rsfg4B+Od86KHMeaYECW9GAn2dlBarTag7cnnNXMKTCw==" ns0:installerArguments="/S" />
+    </item>
+  </channel>
+</rss>
