@@ -1,0 +1,50 @@
+{
+  "schema": 2,
+  "kind": "native-delivery-qualification",
+  "platform": "Windows",
+  "synthetic": false,
+  "version": "0.1.21",
+  "outcome": "PASS",
+  "staging_qualified": true,
+  "normal_feed_confirmed": false,
+  "run_id": "37600548405",
+  "source_commit": "51dc0203860143b53f1e276703f24c29e06ca078",
+  "candidate_sha256": "3d2177b5b7ed0306b7526158abbd72fda3f8a62ffa73a63d1a1880c9b198c97a",
+  "installer_sha256": "b7a2a777afc94ae94203cd7d088589629e93046afca48e2a9071233074f68c72",
+  "executable_sha256": "f4166f77434f889d9b011511ab940600b516b8113348314f1b5e5579c8c25848",
+  "candidate_dll_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
+  "legacy_migration": "PASS_UNCHANGED_0.1.20_VIA_VISIBLE_UPDATER",
+  "candidate_cancellation": "PASS_THREE_SAME_PROCESS_CYCLES",
+  "evidence_sha256": {
+    "installer_report": "eee7ec8561472859e65304b8e5a7eb235b0c63a3d3e3d98613dc0052dba67026",
+    "installer_logs": {
+      "signature_valid": "cab81e040a87f8f6b3adfdf8945f2cde3c5c03492a59ea7dfefdb4aa99376c2f",
+      "tamper_rejected": "cab81e040a87f8f6b3adfdf8945f2cde3c5c03492a59ea7dfefdb4aa99376c2f",
+      "installer_upgrade": "cab81e040a87f8f6b3adfdf8945f2cde3c5c03492a59ea7dfefdb4aa99376c2f",
+      "updated_app_relaunch": "cab81e040a87f8f6b3adfdf8945f2cde3c5c03492a59ea7dfefdb4aa99376c2f",
+      "history_preserved": "cab81e040a87f8f6b3adfdf8945f2cde3c5c03492a59ea7dfefdb4aa99376c2f",
+      "previous_version_retained": "cab81e040a87f8f6b3adfdf8945f2cde3c5c03492a59ea7dfefdb4aa99376c2f",
+      "automatic_preference_preserved": "cab81e040a87f8f6b3adfdf8945f2cde3c5c03492a59ea7dfefdb4aa99376c2f",
+      "full_disk_rollback": "cab81e040a87f8f6b3adfdf8945f2cde3c5c03492a59ea7dfefdb4aa99376c2f",
+      "downgrade_rejected": "cab81e040a87f8f6b3adfdf8945f2cde3c5c03492a59ea7dfefdb4aa99376c2f"
+    },
+    "legacy_migration": "3686c9ac04d21f7b88ef465181e3ea2ba2f8059c0fdc8faffae641caafd95653",
+    "candidate_cancellation": "82b5a3dce64c695d445a9214c824029b8ff3d592ebb17bf16dd31efd1052ed9f",
+    "candidate_cancellation_transcript": "8c3611df7fa48e0cb0f542d6626c86ffc4d38978190fbccefab501a2ce7d0b13"
+  },
+  "publication_performed": false,
+  "evidence_origins": {
+    "installer": {
+      "run_id": "37599947433",
+      "source_commit": "82def420dec7bfd23d99f3d417f0dcb811691691"
+    },
+    "cancellation": {
+      "run_id": "37599947433",
+      "source_commit": "82def420dec7bfd23d99f3d417f0dcb811691691"
+    },
+    "migration": {
+      "run_id": "37600548405",
+      "source_commit": "51dc0203860143b53f1e276703f24c29e06ca078"
+    }
+  }
+}
