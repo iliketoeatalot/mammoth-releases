@@ -1,0 +1,59 @@
+{
+  "schema": 2,
+  "kind": "native-delivery-qualification",
+  "platform": "Windows",
+  "synthetic": false,
+  "version": "0.1.22",
+  "outcome": "PASS",
+  "staging_qualified": true,
+  "normal_feed_confirmed": false,
+  "run_id": "37617437036",
+  "source_commit": "092c019ec280a77c941675f7cc81d3654ea90d7f",
+  "candidate_sha256": "8bb9234489e2bcc8d516f50c64b11c09bfe39ea729a90d8432d0d4d8236a1a51",
+  "installer_sha256": "0a0ba641e41018753453660bb04f5d47235e53f22e461a3ea1a0ec47daad38f3",
+  "executable_sha256": "5f6dc14a98474352c406a1d9e9154752733a54726cdc9edb99dc86b69d697189",
+  "candidate_dll_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
+  "legacy_migration": "PASS_UNCHANGED_0.1.21_VIA_VISIBLE_UPDATER",
+  "candidate_cancellation": "PASS_THREE_SAME_PROCESS_CYCLES",
+  "evidence_sha256": {
+    "installer_report": "1c0025d72b82d3c4ce924a51d62e271128a5974aac41176acc8f89bd1669992d",
+    "installer_logs": {
+      "signature_valid": "5a5d5410a844b52f3d3e943fd0bde70af5e8c9e59ae876077a81211a76ffd149",
+      "tamper_rejected": "5a5d5410a844b52f3d3e943fd0bde70af5e8c9e59ae876077a81211a76ffd149",
+      "installer_upgrade": "5a5d5410a844b52f3d3e943fd0bde70af5e8c9e59ae876077a81211a76ffd149",
+      "updated_app_relaunch": "5a5d5410a844b52f3d3e943fd0bde70af5e8c9e59ae876077a81211a76ffd149",
+      "history_preserved": "5a5d5410a844b52f3d3e943fd0bde70af5e8c9e59ae876077a81211a76ffd149",
+      "previous_version_retained": "5a5d5410a844b52f3d3e943fd0bde70af5e8c9e59ae876077a81211a76ffd149",
+      "automatic_preference_preserved": "5a5d5410a844b52f3d3e943fd0bde70af5e8c9e59ae876077a81211a76ffd149",
+      "full_disk_rollback": "5a5d5410a844b52f3d3e943fd0bde70af5e8c9e59ae876077a81211a76ffd149",
+      "downgrade_rejected": "5a5d5410a844b52f3d3e943fd0bde70af5e8c9e59ae876077a81211a76ffd149"
+    },
+    "legacy_migration": "60948ad398ae3a187ae04e378b3b56260614c4f39fcbcca4358e1ac804560ff6",
+    "candidate_cancellation": "0f5d530a40488aebeb5117069e25ab197e25a523e6ebc544244e3d33b0d38264",
+    "candidate_cancellation_transcript": "8d366d5e988105b767a20fab32850057918486803c9737ad397cbe4621ba1007"
+  },
+  "publication_performed": false,
+  "evidence_origins": {
+    "installer": {
+      "run_id": "37617437036",
+      "source_commit": "092c019ec280a77c941675f7cc81d3654ea90d7f"
+    },
+    "cancellation": {
+      "run_id": "37617437036",
+      "source_commit": "092c019ec280a77c941675f7cc81d3654ea90d7f"
+    },
+    "migration": {
+      "run_id": "37617437036",
+      "source_commit": "092c019ec280a77c941675f7cc81d3654ea90d7f"
+    }
+  },
+  "collection_origin": {
+    "run_id": "37618321611",
+    "source_commit": "05c899d5232bf53194c87ff4b4978e5501a437f8",
+    "retained_successful_attempts": {
+      "installer": 1,
+      "migration": 1,
+      "candidate-cancellation": 2
+    }
+  }
+}
