@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "artifacts": [
+    {
+      "bytes": 7159075,
+      "sha256": "6ef46d8617fcd41b7e0697553d201ce4e4ff39c6e48c84b7a22f3e5fa7fd0fc5",
+      "name": "Mammoth-Setup-0.1.22.exe"
+    },
+    {
+      "bytes": 9945327,
+      "sha256": "8a5d55968c0468fb7adc22cbac2ea19ddfec1924a7512700ce4725a4425ad62e",
+      "name": "Mammoth-Windows.zip"
+    }
+  ],
+  "updater_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
+  "version": "0.1.22",
+  "release_ready": false,
+  "source_commit": "eebdba09e6aab7e41e8c4e1e4b58e4f4e67517cd",
+  "run_id": "37611585018",
+  "native_checks": 803
+}
