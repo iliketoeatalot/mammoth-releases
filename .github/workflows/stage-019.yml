@@ -1,0 +1,56 @@
+name: Stage signed Mammoth 0.1.19
+on:
+  push:
+    branches: [release/staging-0.1.19]
+    paths: [.github/workflows/stage-019.yml]
+permissions:
+  contents: write
+jobs:
+  stage:
+    runs-on: windows-2022
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify exact tested binaries and the original update signing identity
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          Invoke-WebRequest 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-2314-81f5-9be5-2159e0201109/raw?se=2026-10-07T00%3A20%3A03Z&sp=r&sv=2026-02-06&sr=b&scid=4078b920-aa47-4123-804a-c33ca90af1ab&skoid=732f244e-db13-47c3-bcc7-7ee02a9397bc&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-06T22%3A55%3A26Z&ske=2026-10-07T22%3A55%3A26Z&sks=b&skv=2026-02-06&sig=lkz4T234f/zwNRHX1QF/c32T17nOqWEvAwz7fF2jvHE%3D' -OutFile delivery.zip -TimeoutSec 120
+          if ((Get-FileHash delivery.zip).Hash.ToLowerInvariant() -cne '44f275e37e0b595864efa008bcd0eb6eef5fa6a61f01a8412adc0d723a2c64fe') {throw 'Binary-only transfer differs.'}
+          Expand-Archive delivery.zip delivery
+          $names=@(Get-ChildItem delivery -File | ForEach-Object {$_.Name} | Sort-Object)
+          $expected=@('Mammoth-Setup-0.1.19.exe','Mammoth-Windows.zip','build-provenance.json') | Sort-Object
+          if (($names -join ',') -cne ($expected -join ',')) {throw 'Unexpected transfer contents.'}
+          $installer='delivery/Mammoth-Setup-0.1.19.exe'
+          $portable='delivery/Mammoth-Windows.zip'
+          if ((Get-FileHash $installer).Hash.ToLowerInvariant() -cne 'cb508033aebb2ddd9581fbfca21dfe0ca2173a1b7d9c8c715b763d9d640224f9') {throw 'Installer differs.'}
+          if ((Get-FileHash $portable).Hash.ToLowerInvariant() -cne 'e23d1e865d590b6de5c5e1778bc52073b584f049c0e3e2e9555783ca9b62072f') {throw 'Portable differs.'}
+          Expand-Archive $portable payload
+          if ((Get-FileHash payload/Mammoth.exe).Hash.ToLowerInvariant() -cne '6bf9634a8577c7efb05d3e461b987a90162a9b80d8e00b0ec5717c48c41b07b4') {throw 'Executable differs.'}
+          if ((Get-FileHash payload/WinSparkle.dll).Hash.ToLowerInvariant() -cne '3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21') {throw 'Repaired updater differs.'}
+          $p=Get-Content delivery/build-provenance.json -Raw | ConvertFrom-Json
+          if ($p.version -cne '0.1.19' -or $p.f6bb8544e23c5bb28646e6d72e96bc8f1f20bfa8 -cne 'f6bb8544e23c5bb28646e6d72e96bc8f1f20bfa8' -or $p.37550049531 -cne '37550049531' -or $p.687 -ne 687) {throw 'Tested build provenance differs.'}
+          Copy-Item release-019/appcast*.xml,release-019/D0yCtZLMtV3/fJEmAIWvTl548J/GtUsy4kOa09Rxgs7n1hvhdx+qwrqPieDE5TTBlC1XGbpM3+sSs8/YHJUNDA==.txt,release-019/release-candidate.json ./
+          Invoke-WebRequest 'https://github.com/vslavik/winsparkle/releases/download/v0.9.4/WinSparkle-0.9.4.zip' -OutFile verifier.zip -TimeoutSec 90
+          if ((Get-FileHash verifier.zip).Hash.ToLowerInvariant() -cne '6037df37fc263bd1650a1c4949681a9d40ffe991d01f35892a406cb5d103c976') {throw 'Official verifier differs.'}
+          Expand-Archive verifier.zip verifier
+          $tool=@(Get-ChildItem verifier -Filter winsparkle-tool.exe -Recurse)
+          if ($tool.Count -ne 1) {throw 'Verifier is not unique.'}
+          & $tool[0].FullName verify --public-key '9ZVdGgUQFyHQduXuBOfzCxV/2uiIMIu+XYZOjWdmZOk=' --D0yCtZLMtV3/fJEmAIWvTl548J/GtUsy4kOa09Rxgs7n1hvhdx+qwrqPieDE5TTBlC1XGbpM3+sSs8/YHJUNDA== 'D0yCtZLMtV3/fJEmAIWvTl548J/GtUsy4kOa09Rxgs7n1hvhdx+qwrqPieDE5TTBlC1XGbpM3+sSs8/YHJUNDA==' $installer
+          if ($LASTEXITCODE -ne 0) {throw 'Official D0yCtZLMtV3/fJEmAIWvTl548J/GtUsy4kOa09Rxgs7n1hvhdx+qwrqPieDE5TTBlC1XGbpM3+sSs8/YHJUNDA== verification failed.'}
+      - name: Stage without changing the built-in updater
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $stable=gh release view --repo iliketoeatalot/mammoth-releases --json tagName --jq .tagName
+          if ($LASTEXITCODE -ne 0 -or $stable -cne 'v0.1.18') {throw 'Unexpected stable release.'}
+          gh release view v0.1.19-staging --repo iliketoeatalot/mammoth-releases 2>$null
+          if ($LASTEXITCODE -eq 0) {throw 'Immutable staging already exists.'}
+          gh release create v0.1.19-staging delivery/Mammoth-Setup-0.1.19.exe delivery/Mammoth-Windows.zip delivery/build-provenance.json D0yCtZLMtV3/fJEmAIWvTl548J/GtUsy4kOa09Rxgs7n1hvhdx+qwrqPieDE5TTBlC1XGbpM3+sSs8/YHJUNDA==.txt appcast.xml appcast-staging.xml appcast-cancellation-test.xml release-candidate.json --repo iliketoeatalot/mammoth-releases --prerelease --latest=false --title 'Mammoth 0.1.19 update qualification' --notes 'Signed tested candidate; native delivery qualification pending. The cancellation feed is a future-version test fixture pointing at this same signed installer; no future release is shipped. Normal updater remains 0.1.18.'
+          if ($LASTEXITCODE -ne 0) {throw 'Staging failed.'}
+          $stable=gh release view --repo iliketoeatalot/mammoth-releases --json tagName --jq .tagName
+          if ($LASTEXITCODE -ne 0 -or $stable -cne 'v0.1.18') {throw 'Staging changed the normal updater.'}

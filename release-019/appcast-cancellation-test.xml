@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+  <channel>
+    <title>Mammoth updates</title>
+    <item>
+      <title>Mammoth 0.1.20</title>
+      <description>Cancellation test fixture only; same signed 0.1.19 installer</description>
+      <sparkle:minimumSystemVersion>10.0</sparkle:minimumSystemVersion>
+      <enclosure url="https://github.com/iliketoeatalot/mammoth-releases/releases/download/v0.1.19-staging/Mammoth-Setup-0.1.19.exe" length="6980034" type="application/octet-stream" sparkle:version="0.1.20" sparkle:os="windows-x64" sparkle:edSignature="D0yCtZLMtV3/fJEmAIWvTl548J/GtUsy4kOa09Rxgs7n1hvhdx+qwrqPieDE5TTBlC1XGbpM3+sSs8/YHJUNDA==" sparkle:installerArguments="/S" />
+    </item>
+  </channel>
+</rss>
