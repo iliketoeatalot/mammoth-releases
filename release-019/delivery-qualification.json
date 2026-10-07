@@ -1,0 +1,36 @@
+{
+  "schema": 2,
+  "kind": "native-delivery-qualification",
+  "platform": "Windows",
+  "synthetic": false,
+  "version": "0.1.19",
+  "outcome": "PASS",
+  "staging_qualified": true,
+  "normal_feed_confirmed": false,
+  "run_id": "37551558051",
+  "source_commit": "f4ed3444b72db62b2a26243ef61238431223d1ff",
+  "candidate_sha256": "2e7d4a9e39027679332a4ac0fade2a142810390e843d07ddd01f98c9b32b3536",
+  "installer_sha256": "cb508033aebb2ddd9581fbfca21dfe0ca2173a1b7d9c8c715b763d9d640224f9",
+  "executable_sha256": "6bf9634a8577c7efb05d3e461b987a90162a9b80d8e00b0ec5717c48c41b07b4",
+  "candidate_dll_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
+  "legacy_migration": "PASS_UNCHANGED_0.1.18_VIA_VISIBLE_UPDATER",
+  "candidate_cancellation": "PASS_THREE_SAME_PROCESS_CYCLES",
+  "evidence_sha256": {
+    "installer_report": "8b69ecc2fa3914d58e05425fbb1cc13b372847f6267f320595f06fd889c550e0",
+    "installer_logs": {
+      "signature_valid": "238ab59df1642f7c3b01155246358faedcd67a0a3729120eb73d8f34d584bfb6",
+      "tamper_rejected": "238ab59df1642f7c3b01155246358faedcd67a0a3729120eb73d8f34d584bfb6",
+      "installer_upgrade": "238ab59df1642f7c3b01155246358faedcd67a0a3729120eb73d8f34d584bfb6",
+      "updated_app_relaunch": "238ab59df1642f7c3b01155246358faedcd67a0a3729120eb73d8f34d584bfb6",
+      "history_preserved": "238ab59df1642f7c3b01155246358faedcd67a0a3729120eb73d8f34d584bfb6",
+      "previous_version_retained": "238ab59df1642f7c3b01155246358faedcd67a0a3729120eb73d8f34d584bfb6",
+      "automatic_preference_preserved": "238ab59df1642f7c3b01155246358faedcd67a0a3729120eb73d8f34d584bfb6",
+      "full_disk_rollback": "238ab59df1642f7c3b01155246358faedcd67a0a3729120eb73d8f34d584bfb6",
+      "downgrade_rejected": "238ab59df1642f7c3b01155246358faedcd67a0a3729120eb73d8f34d584bfb6"
+    },
+    "legacy_migration": "d6043d2c3a0a39b5926e9ed47940055ffa3d8ba4be72e9cd88bf37a38a08c823",
+    "candidate_cancellation": "9e12989437e9155d5bf9940045e46212163a58f181a82be7b3f43f4789a59199",
+    "candidate_cancellation_transcript": "8859ad4331c8026dee8b6653bed300ed7a04241ecbeaa27ab1a6c5b7f2146528"
+  },
+  "publication_performed": false
+}

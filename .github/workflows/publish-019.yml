@@ -1,0 +1,102 @@
+name: Publish qualified repaired Mammoth 0.1.19
+on:
+  push:
+    branches: [release/staging-0.1.19]
+    paths: [.github/workflows/publish-019.yml]
+permissions:
+  contents: write
+concurrency:
+  group: mammoth-stable-release
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: iliketoeatalot/mammoth-releases
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Fetch exact independently qualified staging assets
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = iliketoeatalot/mammoth-releases
+          test "$(gh api repos/$GH_REPO/releases/latest --jq .tag_name)" = v0.1.18
+          test "$(gh release view v0.1.19-staging --json isPrerelease --jq .isPrerelease)" = true
+          gh api repos/$GH_REPO/releases > releases.json
+          python - <<'PY'
+          import json
+          assert not any(r['tag_name']=='v0.1.19' for r in json.load(open('releases.json'))),'Stable release already exists'
+          PY
+          mkdir delivery
+          for name in Mammoth-Setup-0.1.19.exe Mammoth-Windows.zip signature.txt appcast.xml release-candidate.json; do
+            gh release download v0.1.19-staging --pattern "$name" --dir delivery
+          done
+          cp release-019/delivery-qualification.json release-019/release-notes.md delivery/
+      - name: Validate exact shipping hashes and public trust
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import json,hashlib,zipfile,xml.etree.ElementTree as ET
+          root=Path('delivery')
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          assert sha(root/'release-candidate.json')=='2e7d4a9e39027679332a4ac0fade2a142810390e843d07ddd01f98c9b32b3536'
+          c=json.loads((root/'release-candidate.json').read_text())
+          assert c['version']=='0.1.19'
+          assert c['channel']=={'schema':1,'feed':'https://github.com/iliketoeatalot/mammoth-releases/releases/latest/download/appcast.xml','publicKey':'9ZVdGgUQFyHQduXuBOfzCxV/2uiIMIu+XYZOjWdmZOk='}
+          for name,info in c['artifacts'].items():
+              p=root/name
+              assert p.stat().st_size==info['bytes'] and sha(p)==info['sha256'],name
+          with zipfile.ZipFile(root/'Mammoth-Windows.zip') as z:
+              exe=[n for n in z.namelist() if n.endswith('/Mammoth.exe') or n=='Mammoth.exe']
+              dll=[n for n in z.namelist() if n.endswith('/WinSparkle.dll') or n=='WinSparkle.dll']
+              assert len(exe)==len(dll)==1
+              assert hashlib.sha256(z.read(exe[0])).hexdigest()=='6bf9634a8577c7efb05d3e461b987a90162a9b80d8e00b0ec5717c48c41b07b4'
+              assert hashlib.sha256(z.read(dll[0])).hexdigest()=='3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21'
+          e=ET.parse(root/'appcast.xml').find('.//enclosure')
+          ns='{http://www.andymatuschak.org/xml-namespaces/sparkle}'
+          assert e.get('url')=='https://github.com/iliketoeatalot/mammoth-releases/releases/download/v0.1.19/Mammoth-Setup-0.1.19.exe'
+          assert e.get(ns+'version')=='0.1.19' and e.get(ns+'edSignature')==(root/'signature.txt').read_text().strip()
+          proof=json.loads((root/'delivery-qualification.json').read_text())
+          assert proof['outcome']=='PASS' and proof['candidate_cancellation']=='PASS_THREE_SAME_PROCESS_CYCLES'
+          assert sha(root/'delivery-qualification.json')=='0f0ea7c44361e11c1f4bb3c49eb83d8e5b384f2a534bb427d57dc46c0c52a40b'
+          assert proof['candidate_sha256']=='2e7d4a9e39027679332a4ac0fade2a142810390e843d07ddd01f98c9b32b3536' and proof['installer_sha256']=='cb508033aebb2ddd9581fbfca21dfe0ca2173a1b7d9c8c715b763d9d640224f9' and proof['executable_sha256']=='6bf9634a8577c7efb05d3e461b987a90162a9b80d8e00b0ec5717c48c41b07b4'
+          (root/'SHA256SUMS').write_text(''.join(sha(p)+'  '+p.name+'\n' for p in sorted(root.iterdir()) if p.is_file()))
+          print('Exact qualified binaries, repaired DLL, signed feed and unchanged public trust verified')
+          PY
+      - name: Create draft and verify uploaded bytes before latest promotion
+        run: |
+          set -euo pipefail
+          gh release create v0.1.19 delivery/* --draft --latest=false --target "$GITHUB_SHA" --title "Mammoth 0.1.19" --notes-file delivery/release-notes.md
+          mkdir readback
+          gh release download v0.1.19 --dir readback
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          files=list(Path('delivery').iterdir())
+          assert {p.name for p in files}=={p.name for p in Path('readback').iterdir()}
+          for p in files:
+              assert p.read_bytes()==(Path('readback')/p.name).read_bytes(),p.name
+          print('Every draft asset independently read back byte for byte')
+          PY
+          test "$(gh api repos/$GH_REPO/releases/latest --jq .tag_name)" = v0.1.18
+          gh release edit v0.1.19 --draft=false --prerelease=false --latest
+      - name: Confirm the actual normal feed now serves the exact signed update
+        run: |
+          set -euo pipefail
+          test "$(gh api repos/$GH_REPO/releases/latest --jq .tag_name)" = v0.1.19
+          curl --fail --location --retry 3 'https://github.com/iliketoeatalot/mammoth-releases/releases/latest/download/appcast.xml' --output normal-appcast.xml
+          echo '0f79168518ff9b9e6877e7b287ace78d5e769170b0c1060d89da17058e2f5c6c  normal-appcast.xml' | sha256sum -c -
+          cmp normal-appcast.xml delivery/appcast.xml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Mammoth-019-publication-readback
+          path: |
+            normal-appcast.xml
+            delivery/SHA256SUMS
+            delivery/delivery-qualification.json
+          if-no-files-found: error
+
