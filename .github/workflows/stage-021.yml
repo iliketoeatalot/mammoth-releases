@@ -1,0 +1,34 @@
+name: Stage exact signed Mammoth 0.1.21 binaries
+on:
+  push:
+    branches: [delivery/0.1.21]
+    paths: [.github/workflows/stage-021.yml, payload-021/**]
+permissions:
+  contents: write
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify exact tested bytes and unchanged stable release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = iliketoeatalot/mammoth-releases
+          test "$GITHUB_REF" = refs/heads/delivery/0.1.21
+          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.20
+          cd payload-021
+          sha256sum -c SHA256SUMS
+          test "$(sha256sum Mammoth-Setup-0.1.21.exe | cut -d' ' -f1)" = b7a2a777afc94ae94203cd7d088589629e93046afca48e2a9071233074f68c72
+          test "$(sha256sum Mammoth-Windows.zip | cut -d' ' -f1)" = ddb05c8e2c205907255a32f4864f0dd6402cd15b9f9a0ed73a4879943fc13b68
+      - name: Publish isolated prerelease for native delivery tests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release create v0.1.21-staging payload-021/Mammoth-Setup-0.1.21.exe payload-021/Mammoth-Windows.zip payload-021/appcast.xml payload-021/appcast-staging.xml payload-021/appcast-cancellation-test.xml payload-021/release-candidate.json payload-021/signature.txt payload-021/SHA256SUMS payload-021/release-notes.md payload-021/build-provenance.json --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Mammoth 0.1.21 delivery-test staging" --notes "Isolated signed delivery candidate. The normal updater remains on 0.1.20." --prerelease --latest=false
+          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.20

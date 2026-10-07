@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:ns0="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+  <channel>
+    <title>Mammoth updates</title>
+    <item>
+      <title>Mammoth 0.1.21</title>
+      <description>Song-folder scanning and validated .mampak packs, separate difficulty/mastery progress, compact hover controls, Follow toggle, contextual learning and dynamic note effects.</description>
+      <ns0:minimumSystemVersion>10.0</ns0:minimumSystemVersion>
+      <enclosure url="https://github.com/iliketoeatalot/mammoth-releases/releases/download/v0.1.21-staging/Mammoth-Setup-0.1.21.exe" length="7119992" type="application/octet-stream" ns0:version="0.1.22" ns0:os="windows-x64" ns0:edSignature="Pz2/dfArWXYBSbtXO50yec7toFPC63nhj7qsrGmBcDIqJ8OJ4jGokTO76OAK12kQv+VH/UZUE6y1U2vt7KulDQ==" ns0:installerArguments="/S" />
+    </item>
+  </channel>
+</rss>

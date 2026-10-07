@@ -1,0 +1,29 @@
+{
+  "artifacts": {
+    "Mammoth-Setup-0.1.21.exe": {
+      "bytes": 7119992,
+      "sha256": "b7a2a777afc94ae94203cd7d088589629e93046afca48e2a9071233074f68c72"
+    },
+    "Mammoth-Windows.zip": {
+      "bytes": 9895168,
+      "sha256": "ddb05c8e2c205907255a32f4864f0dd6402cd15b9f9a0ed73a4879943fc13b68"
+    },
+    "appcast.xml": {
+      "bytes": 900,
+      "sha256": "130be5ed94b5c1b6a3686fcec219c2efe28bc17c8c4daf3cab11463c7ba186ec"
+    },
+    "signature.txt": {
+      "bytes": 89,
+      "sha256": "22e4867649836a8c8728f2278dd40a385f04abb78e19f35a8aa1b88293d1547b"
+    }
+  },
+  "channel": {
+    "feed": "https://github.com/iliketoeatalot/mammoth-releases/releases/latest/download/appcast.xml",
+    "publicKey": "9ZVdGgUQFyHQduXuBOfzCxV/2uiIMIu+XYZOjWdmZOk=",
+    "schema": 1
+  },
+  "portable_exe_sha256": "f4166f77434f889d9b011511ab940600b516b8113348314f1b5e5579c8c25848",
+  "repository": "iliketoeatalot/mammoth-releases",
+  "schema": 1,
+  "version": "0.1.21"
+}
