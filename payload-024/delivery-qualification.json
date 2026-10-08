@@ -1,0 +1,50 @@
+{
+  "schema": 2,
+  "kind": "native-delivery-qualification",
+  "platform": "Windows",
+  "synthetic": false,
+  "version": "0.1.24",
+  "outcome": "PASS",
+  "staging_qualified": true,
+  "normal_feed_confirmed": false,
+  "run_id": "37724697491",
+  "source_commit": "f77c2721217b9eda2e9fa5c11f7a3795ae8bf977",
+  "candidate_sha256": "21743eff4beab3e3ae1d7c555a7e16d1789fbb1801b9d0d772961427c3984a2e",
+  "installer_sha256": "43df35de4f713a3b5835b635aa5839ab1377af6f6bd34f3b0b5b3bfe12562e20",
+  "executable_sha256": "4c54d5b79a07df15b21fd320effc52a3c152d7a8298cea0bb400f44965903c29",
+  "candidate_dll_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
+  "legacy_migration": "PASS_UNCHANGED_0.1.23_VIA_VISIBLE_UPDATER",
+  "candidate_cancellation": "PASS_THREE_SAME_PROCESS_CYCLES",
+  "evidence_sha256": {
+    "installer_report": "7b58c79e16232e646d91ed0252dc2ba96fa7a247dd67037badd4b91a9dc7309e",
+    "installer_logs": {
+      "signature_valid": "59c754ffa6e46928eaef797acbdb4c7ac9513edd7f6bea47fdc4e6b2013d4a9d",
+      "tamper_rejected": "59c754ffa6e46928eaef797acbdb4c7ac9513edd7f6bea47fdc4e6b2013d4a9d",
+      "installer_upgrade": "59c754ffa6e46928eaef797acbdb4c7ac9513edd7f6bea47fdc4e6b2013d4a9d",
+      "updated_app_relaunch": "59c754ffa6e46928eaef797acbdb4c7ac9513edd7f6bea47fdc4e6b2013d4a9d",
+      "history_preserved": "59c754ffa6e46928eaef797acbdb4c7ac9513edd7f6bea47fdc4e6b2013d4a9d",
+      "previous_version_retained": "59c754ffa6e46928eaef797acbdb4c7ac9513edd7f6bea47fdc4e6b2013d4a9d",
+      "automatic_preference_preserved": "59c754ffa6e46928eaef797acbdb4c7ac9513edd7f6bea47fdc4e6b2013d4a9d",
+      "full_disk_rollback": "59c754ffa6e46928eaef797acbdb4c7ac9513edd7f6bea47fdc4e6b2013d4a9d",
+      "downgrade_rejected": "59c754ffa6e46928eaef797acbdb4c7ac9513edd7f6bea47fdc4e6b2013d4a9d"
+    },
+    "legacy_migration": "28da2b2bc306da0c275c2cf2e98cd69b94b2890ca8022d27bdc96111e839e178",
+    "candidate_cancellation": "49ddfff2d5b7b95c05d720cc0c7d5479a31d66a96d3f57fc2e565259afbcee91",
+    "candidate_cancellation_transcript": "846756a9f7876a4b64078b7e02ee761871970098e29e10952d37c5170cb85005"
+  },
+  "publication_performed": false,
+  "evidence_origins": {
+    "installer": {
+      "run_id": "37724697491",
+      "source_commit": "f77c2721217b9eda2e9fa5c11f7a3795ae8bf977"
+    },
+    "cancellation": {
+      "run_id": "37724697491",
+      "source_commit": "f77c2721217b9eda2e9fa5c11f7a3795ae8bf977"
+    },
+    "migration": {
+      "run_id": "37724697491",
+      "source_commit": "f77c2721217b9eda2e9fa5c11f7a3795ae8bf977"
+    }
+  }
+}
