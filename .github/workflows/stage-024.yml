@@ -1,0 +1,36 @@
+name: Stage exact signed Mammoth 0.1.24 binaries
+on:
+  push:
+    branches: [delivery/0.1.24]
+    paths: [.github/workflows/stage-024.yml, payload-024/**]
+permissions:
+  contents: write
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify exact tested bytes and unchanged stable release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = iliketoeatalot/mammoth-releases
+          test "$GITHUB_REF" = refs/heads/delivery/0.1.24
+          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.23
+          cd payload-024
+          sha256sum -c SHA256SUMS
+          test "$(sha256sum Mammoth-Setup-0.1.24.exe | cut -d' ' -f1)" = 8674032ce6cd4e75aeedd0754b47d18bd42ded378f39b1b8bfe03b19ff76314c
+          test "$(sha256sum Mammoth-Windows.zip | cut -d' ' -f1)" = dfdfa3e62797a35845a208d2a099b154d0745ce9130a93632a28d04120148104
+      - name: Publish isolated prerelease for native delivery tests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view v0.1.24-staging --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then echo "Staging already exists; refuse replacement."; exit 1; fi
+          gh release create v0.1.24-staging payload-024/Mammoth-Setup-0.1.24.exe payload-024/Mammoth-Windows.zip payload-024/appcast.xml payload-024/appcast-staging.xml payload-024/appcast-cancellation-test.xml payload-024/release-candidate.json payload-024/signature.txt payload-024/SHA256SUMS payload-024/release-notes.md payload-024/build-provenance.json --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Mammoth 0.1.24 delivery-test staging" --notes "Isolated signed delivery candidate. The normal updater remains on 0.1.23." --prerelease --latest=false
+          test "$(gh api repos/$GITHUB_REPOSITORY/releases/latest --jq .tag_name)" = v0.1.23
+
