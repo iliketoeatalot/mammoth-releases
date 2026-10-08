@@ -1,20 +1,20 @@
 {
   "artifacts": {
     "Mammoth-Setup-0.1.24.exe": {
-      "bytes": 7231720,
-      "sha256": "8674032ce6cd4e75aeedd0754b47d18bd42ded378f39b1b8bfe03b19ff76314c"
+      "bytes": 7223009,
+      "sha256": "43df35de4f713a3b5835b635aa5839ab1377af6f6bd34f3b0b5b3bfe12562e20"
     },
     "Mammoth-Windows.zip": {
-      "bytes": 10037214,
-      "sha256": "dfdfa3e62797a35845a208d2a099b154d0745ce9130a93632a28d04120148104"
+      "bytes": 10038156,
+      "sha256": "d1e4849000381178b6077ce75a138692f2187e00e864481bfb4b3055b796abc6"
     },
     "appcast.xml": {
       "bytes": 853,
-      "sha256": "b94dd750db6b21311824b7039797f789a6ff911619b340ffa3ee54d34f6ec5dd"
+      "sha256": "91c649a7aa055d3a62e60e5d257f3d9960a366a72e8f1995a1f2273742f1d4aa"
     },
     "signature.txt": {
       "bytes": 89,
-      "sha256": "15119b8cf1c30320416158f367589ace2ce203627cab4707c247910781be2245"
+      "sha256": "c0b58bcb2d8ecbfc1ec6a0821bdb4305323f181544570308c28be323ace95308"
     }
   },
   "channel": {
@@ -22,7 +22,7 @@
     "publicKey": "9ZVdGgUQFyHQduXuBOfzCxV/2uiIMIu+XYZOjWdmZOk=",
     "schema": 1
   },
-  "portable_exe_sha256": "fd54a907067ffaa28607b48d05c06ac8b7d0df651e100387d9fb90609ae7a320",
+  "portable_exe_sha256": "4c54d5b79a07df15b21fd320effc52a3c152d7a8298cea0bb400f44965903c29",
   "repository": "iliketoeatalot/mammoth-releases",
   "schema": 1,
   "version": "0.1.24"

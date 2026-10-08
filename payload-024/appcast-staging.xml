@@ -6,7 +6,7 @@
       <title>Mammoth 0.1.24</title>
       <description>Discovery filters, saved versions and automatic MIDI analysis; chord scoring, practice points and resettable key-cue colours.</description>
       <ns0:minimumSystemVersion>10.0</ns0:minimumSystemVersion>
-      <enclosure url="https://github.com/iliketoeatalot/mammoth-releases/releases/download/v0.1.24-staging/Mammoth-Setup-0.1.24.exe" length="7231720" type="application/octet-stream" ns0:version="0.1.24" ns0:os="windows-x64" ns0:edSignature="TyhLgGDjk11FaicFdfm5z42gziVoGADD8Esq61gtTXuTysxqWch/5H6joPRtsKxoPLYlOYgtK2cBCHtlqA7uBg==" ns0:installerArguments="/S" />
+      <enclosure url="https://github.com/iliketoeatalot/mammoth-releases/releases/download/v0.1.24-staging-2/Mammoth-Setup-0.1.24.exe" length="7223009" type="application/octet-stream" ns0:version="0.1.24" ns0:os="windows-x64" ns0:edSignature="hdsCNJhnkTtsx12Sg/XSka62dZ5STe/jaSBjwix7Dxl+lmGY193FXYb9NTGikl6NXluzNXGFw/Cu91azXSHyCA==" ns0:installerArguments="/S" />
     </item>
   </channel>
 </rss>

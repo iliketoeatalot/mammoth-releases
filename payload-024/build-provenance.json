@@ -1,21 +1,21 @@
 {
-  "source_commit": "d62c49e5facb561d9f16906518ad72661676b1a4",
-  "native_checks": 842,
-  "updater_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
-  "run_id": "37722845448",
-  "schema": 1,
-  "version": "0.1.24",
+  "run_id": "37724175102",
+  "source_commit": "64aa6c842d4766f2f8724d28f7328d6b62e1e0b0",
   "release_ready": false,
+  "native_checks": 848,
+  "version": "0.1.24",
+  "updater_sha256": "3291385d413838795a56700fa1d231a7ed7e882d91a400d55975661a1845ae21",
   "artifacts": [
     {
-      "sha256": "8674032ce6cd4e75aeedd0754b47d18bd42ded378f39b1b8bfe03b19ff76314c",
       "name": "Mammoth-Setup-0.1.24.exe",
-      "bytes": 7231720
+      "sha256": "43df35de4f713a3b5835b635aa5839ab1377af6f6bd34f3b0b5b3bfe12562e20",
+      "bytes": 7223009
     },
     {
-      "sha256": "dfdfa3e62797a35845a208d2a099b154d0745ce9130a93632a28d04120148104",
       "name": "Mammoth-Windows.zip",
-      "bytes": 10037214
+      "sha256": "d1e4849000381178b6077ce75a138692f2187e00e864481bfb4b3055b796abc6",
+      "bytes": 10038156
     }
-  ]
+  ],
+  "schema": 1
 }
